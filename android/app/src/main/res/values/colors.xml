@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The MH3U's water, as the app's icon (Look.java and app_palette.h have the same) -->
+    <color name="colorPrimary">#0E2832</color>
+    <color name="colorPrimaryDark">#041118</color>
+    <color name="colorAccent">#E2B65C</color>
+</resources>

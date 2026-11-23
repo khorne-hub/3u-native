@@ -1,0 +1,6 @@
+# Accepted names for MH3U USA v1.0 (00040000000AE400). Format: <address> <name> [# note]
+# Names are ours unless a note says otherwise; the original source names are unknown.
+0x00100000 entry                    # crt0 entry point
+0x0054c8b8 MtDTI::MtDTI             # (this, name, parent, size, arg4, flags, id), found by tools/mt_dti.py
+0x00afe278 __cpp_initialize__aeabi_ # RVCT start-up: runs the 1222 static constructors of the init table (ARM form)
+0x00989d94 sLtRender::renderFrame   # per-frame render virtual: frame counter this+0x6b9c, mirrored to 0x00ca8804

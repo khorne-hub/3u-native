@@ -1,0 +1,10 @@
+# Tunables: instructions whose immediate operand the port can change at run time
+# (tools/recompile.py makes them read rc_tunables[]). MH3U USA v1.0.
+# Format: <address> <original immediate> <name>  # what it is. Part of the code library's id (tools/build_game.py).
+#
+# None yet (MH4U's top_rows for widescreen comes with the MH3U widescreen work).
+# -- mh3u-gfx: the wide top screen (port/src/mh3u_gfx.inc; MH4U's top_rows) --
+0x0055b5e4 400 top_rows    # full-screen pass with an 8-pixel border (0x0055b01c): clamp of its far edge (cmp)
+0x0055b5e8 400 top_rows    #   same clamp (movgt)
+0x00882168 400 top_rows    # sCamera::Viewport::setupDraw (0x00881d3c), mode 0xa (virtual rect) on the top screen
+# -- end mh3u-gfx --

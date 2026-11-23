@@ -1,0 +1,11 @@
+# Function entry points not in functions.tsv, for tools/recompile.py (MH3U USA v1.0).
+# indirect-target: reached through a function pointer made at run time, as the native runtime's fallback interpreter
+# logged it (build/missing_entries.txt) or a recomp.gametest run found it. Addresses only, no game data.
+0x0010853c	arm	indirect-target
+0x001085a0	arm	indirect-target
+0x00110464	arm	indirect-target
+0x001104f0	arm	indirect-target
+0x00110540	arm	indirect-target
+0x00260914	arm	indirect-target
+0x005ae498	arm	indirect-target
+0x005aebb0	arm	indirect-target

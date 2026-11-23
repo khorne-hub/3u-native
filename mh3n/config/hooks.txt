@@ -1,0 +1,25 @@
+# Hook points: recompiled game functions that the port's native code can wrap or replace
+# (see RHookFn in tools/recomp/runtime/recomp.h). MH3U USA v1.0 addresses.
+# Format: <address> <name>  # purpose. Adding or removing one changes the generated code and the code library's id
+# (tools/build_game.py ID_FILES; docs/MH3U.md "The code library id"), so every player builds the library again.
+#
+# port/src/hooks.cpp installs an MH3U library's hook points from its own table for this game (MH3U_HOOKS, by name), not
+# MH4U's. A name here reuses an MH4U hook's name only when port/src's handler for it has been checked against this
+# game's function (same object layout).
+0x005920b0 sMain::updateFrameTiming   # frame-rate cap and pacing: the same code as MH4U's 0x006442f8 (cap f32 at +0x30, rate +0x2c, delta +0x5c); the game's own cap is off (3000), the port caps it at the console's 30 or the app's limit
+0x00838a94 uEnemy::addPartDamage      # the damage numbers' "By hit" (hunt_aids.cpp): the hit step 0x00983ce4 hands each hit's total to it (its only caller, at 0x00984b68) with the hit in r4 (+0x0e how well it landed, +0x48 fixed, +0x50 the elements) and its raw and element parts in s16 / s17
+# ---- mh3u-qol (port/src/mh3u_qol.cpp: MH3U's gameplay features) ----
+0x00267104 uGameCamera::turnByInput   # the hunter's camera turned by its actions (6/8 the yaw, L, the Target Cam): data+0x94 yaw, +0x90 pitch; the mouse's turn and the lock-on after it
+0x008afc28 uPlayer::updateInput   # the hunter's input step each frame (its vtable's; [hunter+0xd5c]+0x194 the pad words and the action bits it builds): hold A to gather, the flex's and the sharpening's cancel
+# -- mh3u-gfx: the picture (port/src/mh3u_gfx.inc): widescreen, the field of view, the wide top screen --
+0x003320fc uAppCameraBase::getProjMatrix          # widescreen, fov: the hunt's camera (uGameCamera; a copy of the matrix it keeps at +0x158)
+0x00265c54 mh3u:uFreeCamera::getProjMatrix        # widescreen, fov (MH4U's 0x002535f8, the same code)
+0x00309d6c mh3u:uMotionCamera::getProjMatrix      # widescreen, fov: the cutscenes' cameras (a lens matrix of its own after MtMatrix::perspective)
+0x00573a60 mh3u:nDraw::Scene::Scene               # wide render: the main scene target 1024 rows for a top screen wider than 512
+0x0056e3a8 mh3u:nDraw::DisplayBuffer::init        # wide render: the top screen's display buffers W rows
+0x00881478 mh3u:sCamera::Viewport::updateRegion   # wide render: the top viewports' regions over W rows
+0x00549748 mh3u:uGUI::draw                         # wide render: the 2D picture (rGUI: menus, talk, the HUD's cockpit units) centred, the HUD's sides at the edges
+0x002957b4 mh3u:cGUIInstance::draw               # wide render: uGUI's draw's tail call, where its projection block is moved
+0x00539d48 mh3u:nGUI::Draw::begin                 # wide render: an rGUI animation's own projection block, moved as its unit
+0x002f6628 mh3u:uDrawIDSprite::draw              # wide render: the HUD's sprites (clock, gauges) in a 400-row viewport at their side, not stretched
+# -- end mh3u-gfx --

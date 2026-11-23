@@ -1,0 +1,42 @@
+{
+  "_comment": "Monster Hunter 3 Ultimate (this repository's game, branch mh3u). Hashes of the decompressed code.bin and exheader per known version, and each one's short key (the tools' and the library's name for it). Add entries only from dumps you verified yourself. Never commit the files themselves. target: the version whose addresses config/functions.tsv, extra_entries.txt, hooks.txt and tunables.txt hold. port_map: the addresses of the MH4U port code (port/src, config/port_addresses.txt, keyed by MH4U USA v1.3.0 addresses) that have an equivalent in this game (tools/game_version.py); every other one is unknown to the runtime, so nothing reads or calls it.",
+  "game": {
+    "key": "mh3u",
+    "name": "Monster Hunter 3 Ultimate",
+    "program_ids": [
+      "00040000000AE400"
+    ]
+  },
+  "versions": [
+    {
+      "key": "mh3u_usa_v100",
+      "name": "MH3U USA v1.0 (base game 00040000000AE400, no update)",
+      "target": true,
+      "program_id": "00040000000AE400",
+      "title_version": 0,
+      "exheader_sci_sha1": "ec45bcfb6f1b7d17056ebc22606b78b60420eaea",
+      "code_sha1": "fa3c347c61a61ed85a163d24192e822d9e73948a",
+      "code_size": "0xBBA000",
+      "segments": {
+        "text": [
+          "0x00100000",
+          "0x009FF5D0"
+        ],
+        "rodata": [
+          "0x00B00000",
+          "0x000834F0"
+        ],
+        "data": [
+          "0x00B84000",
+          "0x001351A8"
+        ],
+        "bss": [
+          "0x00CB91A8",
+          "0x000E0A0C"
+        ]
+      },
+      "port_map": "config/port_map.txt",
+      "region": "USA"
+    }
+  ]
+}

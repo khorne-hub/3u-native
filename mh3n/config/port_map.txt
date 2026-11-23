@@ -1,0 +1,15 @@
+# The MH4U port code's addresses (config/port_addresses.txt, MH4U USA v1.3.0) that have an equivalent in this game's
+# target version (config/versions.json "port_map"): <MH4U address> <this game's address> <name>  # how it was found.
+# tools/build_game.py puts these pairs in the library (rc_port_addr_usa/here, tools/game_version.py port_table); every
+# port address not listed here is unknown to the runtime (port/src/game_addr.h GameAddr::Known false), so the MH4U
+# features that need it stay off. Not one of build_game.py's ID_FILES (as port_addresses.txt): the library's id doesn't
+# change with this list, but a library has to be built again to carry a new entry.
+0x010571d4 0x00ca8804 FRAMES_SUBMITTED   # the render frame counter's global: sLtRender's per-frame virtual (0x00989d94) adds 1 to this+0x6b9c and mirrors it here (MH4U: 0x00bf672c, +0x6b90); the runtime's frame watcher (kFrameCounterAddress)
+0x01057194 0x00ca87d8 SMAIN_INSTANCE     # sMain*: the instance updateFrameTiming (0x005920b0) is called with (base report, section 4); the frame trace
+0x0010d934 0x0010951c SVC_SLEEP_THREAD   # the limiter's sleep (s64 ns in r0:r1): MH3U's own call to it in updateFrameTiming (0x005923d8) goes to this function, which spins under 13.4 us and otherwise runs svc 0x0A at 0x0010aa7c (MH4U's 0x0010d934 is the svc's own two-instruction stub, which MH3U's table doesn't have as a function)
+0x006442f8 0x005920b0 CALL_GAME_RETURN   # the return address CallGame64 calls the game with: updateFrameTiming's own address, as MH4U's
+# -- mh3u-gfx: the picture (port/src/mh3u_gfx.inc) --
+0x010572cc 0x00ca8944 SLTRENDER_INSTANCE  # sLtRender*: sLtRender's constructor stores itself there (0x0098fed0); its fields are MH4U's +0xc from the render settings on (docs/MH3U.md)
+0x0105729c 0x00ca8914 SCAMERA_INSTANCE    # sCamera*: sCamera::Viewport::updateRegion reads it as MH4U's (0x00881480); viewports at +0x28, 0x198 bytes each
+0x00627bd8 0x00564ee8 EMPTY_RENDER        # uFilter::render, `bx lr`: slot 12 of uFilter's vtable (0x00b68428), as MH4U's
+# -- end mh3u-gfx --
