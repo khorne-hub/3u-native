@@ -10,8 +10,7 @@ runtime of its own that does the console's work, with its graphics drawn through
 MH3U for Android and PC is the third port of the series, made the same way as
 [MH4U for Android and PC](https://github.com/khorne-hub/4u-native) and
 [MHGU for Android and PC](https://github.com/khorne-hub/gu-native), with everything MH4U for Android and PC 1.0.2 has that
-exists in MH3U: the same app, settings, controls, multiplayer and comforts, on MH3U's own game. The three ports go together:
-all of them are at version 1.0.2.
+exists in MH3U: the same app, settings, controls, multiplayer and comforts, on MH3U's own game. The three ports go together.
 
 [Lee esta guía en español](README.es.md)
 

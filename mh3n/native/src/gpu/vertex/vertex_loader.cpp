@@ -21,6 +21,7 @@
 #include "gpu/vertex/vertex_loader.h"
 
 #include <algorithm>
+#include <atomic>
 #include <bit>
 #include <cstring>
 
@@ -401,8 +402,13 @@ void VertexLoader::LoadInto(gpu::Host& host, const pica::DrawCall& draw, LoadedD
             src = host.PhysicalPointer(static_cast<u32>(start), static_cast<u32>(size));
         }
         if (src == nullptr) {
-            MH4N_LOG(Warning, kLog, "loader {} reads {} bytes at {:#x}: outside guest memory", l, size,
-                     start);
+            // (1.0.2.1) told 5 times, then every 1000th (MH3U: bursts of a thousand a session on a player's phone)
+            static std::atomic<u64> outside_told{0};
+            const u64 told = outside_told.fetch_add(1, std::memory_order_relaxed);
+            if (told < 5 || told % 1000 == 0) {
+                MH4N_LOG(Warning, kLog, "loader {} reads {} bytes at {:#x}: outside guest memory (the draw is left out; {} so far)",
+                         l, size, start, told + 1);
+            }
             out.buffers.clear();
             out.index_data.clear();
             out.attributes = {};

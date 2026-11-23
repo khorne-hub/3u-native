@@ -2,6 +2,18 @@
 
 [Español más abajo](#español)
 
+## 1.0.2.1
+
+It installs over 1.0.2, and your code library stays valid: there's no need to build it again.
+
+- **Light and shadows on wide screens (20:9 and wider):** the sunlight and the shadows were missing on these screens (a
+  darker picture, no shadows under hunters and monsters): the top picture was too tall for the game's own video memory.
+  It is now drawn at most 520 rows tall and widened to your screen; at 19.5:9 and narrower nothing changes.
+- **Low-end mode no longer darkens the game:** MH3U's bloom is part of its lighting, so Low-end mode leaves it on. If you
+  had Low-end mode on, the bloom comes back on once, at the first start of 1.0.2.1.
+- **The log no longer grows without limit:** two messages that filled it (thousands of lines a minute on some phones) are
+  said a few times with their count, and a session's log stops at 16 MB.
+
 ## 1.0.2
 
 The first version of MH3U for Android and PC: Monster Hunter 3 Ultimate, recompiled the way MH4U for Android and PC is,
@@ -79,6 +91,19 @@ hour and a half on a low-end one; on a PC 10 to 40 minutes).
 ---
 
 ## Español
+
+## 1.0.2.1
+
+Se instala encima de la 1.0.2, y tu librería de código sigue sirviendo: no hace falta crearla de nuevo.
+
+- **Luz y sombras en pantallas anchas (20:9 o más):** en esas pantallas faltaban la luz del sol y las sombras (una imagen más
+  oscura, sin sombras debajo de cazadores y monstruos): la imagen de arriba era demasiado alta para la memoria de video del
+  propio juego. Ahora se dibuja con 520 filas como mucho y se ensancha a tu pantalla; a 19,5:9 o menos no cambia nada.
+- **El modo gama baja ya no oscurece el juego:** el resplandor del MH3U es parte de su luz, así que el modo gama baja lo deja
+  prendido. Si tenías el modo gama baja prendido, el resplandor se vuelve a prender una vez, en el primer inicio de la
+  1.0.2.1.
+- **El registro ya no crece sin control:** dos mensajes que lo llenaban (miles de líneas por minuto en algunos teléfonos) se
+  dicen pocas veces con su cuenta, y el registro de una sesión se corta a los 16 MB.
 
 ## 1.0.2
 

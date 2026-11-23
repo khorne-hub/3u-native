@@ -56,6 +56,18 @@ void DefaultSink(const LogRecord& record) {
         line += ')';
     }
     line += '\n';
+    // (1.0.2.1) A session's log stops growing at kLogCapBytes (issue 1: a player's logs of several MB): past it only errors
+    // are written, after one line that says so. The phone keeps three sessions' logs (log.txt, log_prev, log_prev2).
+    constexpr u64 kLogCapBytes = 16ull << 20;
+    static std::atomic<u64> written{0};
+    const u64 before = written.fetch_add(line.size(), std::memory_order_relaxed);
+    if (before >= kLogCapBytes && record.level < LogLevel::Error) {
+        return;
+    }
+    if (before < kLogCapBytes && before + line.size() >= kLogCapBytes) {
+        static const char kCapped[] = "[Warning] Log: this session's log reached 16 MB: from here on only its errors\n";
+        std::fwrite(kCapped, 1, sizeof(kCapped) - 1, stderr);
+    }
     std::fwrite(line.data(), 1, line.size(), stderr);
 }
 

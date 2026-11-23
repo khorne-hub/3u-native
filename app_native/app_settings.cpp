@@ -1,5 +1,6 @@
 // The app's own options, mh4u-app.ini (app_settings.h).
 #include "app_settings.h"
+#include "game_options.h"
 #include "app_version.h"
 #include "diag.h"
 #include "colour_filter.h"
@@ -321,6 +322,13 @@ int app_low_end_level(const std::string& text) {
     for (const char* on : {"on", "1", "true", "yes"})
         if (same(text, on)) return LOW_END_ON;
     return LOW_END_OFF;
+}
+
+void app_low_end_bloom_back() {
+    if (!app_setting("Graphics", "LowEndBloomBack", "").empty()) return;
+    app_setting_set("Graphics", "LowEndBloomBack", "1");
+    if (app_low_end_level(app_setting("Graphics", "LowEnd", "off")) == LOW_END_OFF) return;
+    if (game_option_get("bloom", "on") == "off") game_option_set("bloom", "on");
 }
 
 int low_end_fps() {

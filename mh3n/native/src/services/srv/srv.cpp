@@ -183,14 +183,26 @@ private:
         if (notification_id == kNotificationShutdown) {
             Context().RequestExit(0, "srv: PublishToSubscriber 0x203 (power off)");
         } else {
-            MH4N_LOG(Warning, kLog,
-                     "(STUBBED) PublishToSubscriber called, notification_id=0x{:X}, flags={}",
-                     notification_id, flags);
+            // (1.0.2.1) MH3U publishes 0x216 a few times a second the whole session: 28,000 lines and 2.2 MB of a player's
+            // log (issue 1). Each id is told its first 3 times, then at 100, 1,000, 10,000... with the count.
+            std::array<u32, 16>& counts = publish_counts_;
+            const u32 slot = notification_id & 0xF;
+            const u32 n = ++counts[slot];
+            bool tell = n <= 3;
+            for (u32 p = 100; !tell && p != 0 && p <= n; p = p <= 0xFFFFFFFFu / 10 ? p * 10 : 0) {
+                tell = n == p;
+            }
+            if (tell) {
+                MH4N_LOG(Warning, kLog,
+                         "(STUBBED) PublishToSubscriber called, notification_id=0x{:X}, flags={}{}", notification_id,
+                         flags, n > 3 ? fmt::format(" ({} times so far; told at 1-3, 100, 1000...)", n) : std::string());
+            }
         }
         request.MakeReply(1, 0).Push(kResultSuccess);
     }
 
     std::shared_ptr<Semaphore> notification_semaphore_;
+    std::array<u32, 16> publish_counts_{};  // (PublishToSubscriber's log, by the id's low 4 bits)
 };
 
 MH4N_REGISTER(ServiceFactory, "srv:",

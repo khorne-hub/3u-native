@@ -1186,6 +1186,7 @@ int main(int argc, char* argv[]) {
     if (app_setting("Graphics", "HdPackSize", "full") == "half") SetEnv("MH4N_HD_SCALE", "half", false);
     MakeDirs(user);
     game_options_init(user);
+    app_low_end_bloom_back();  // (1.0.2.1, once)
     // a code mod that is on (the single-screen mod): the touch screen's menus are on the top screen
     bool code_mod = false, touch_start_set = false;
     {

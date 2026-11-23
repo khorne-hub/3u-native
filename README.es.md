@@ -11,7 +11,7 @@ MH3U para Android y PC es el tercer port de la serie, hecho de la misma forma qu
 [MH4U para Android y PC](https://github.com/khorne-hub/4u-native) y
 [MHGU para Android y PC](https://github.com/khorne-hub/gu-native), con todo lo que tiene MH4U para Android y PC 1.0.2 que
 existe en MH3U: la misma app, las mismas opciones, controles, multijugador y comodidades, sobre el juego propio de MH3U.
-Los tres ports van a la par: todos están en la versión 1.0.2.
+Los tres ports van a la par.
 
 [Read this guide in English](README.md)
 

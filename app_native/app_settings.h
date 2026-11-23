@@ -81,7 +81,10 @@ inline constexpr int kLowEndFpsFast = 60, kLowEndFpsSlow = 30, kToasterFps = 30;
 // A55 and their kind: first_run_fast_cores)
 int low_end_fps();
 
-inline constexpr const char* kLowEndFilters[] = {"bloom", "motion_blur", "depth_of_field", "radial_blur", "haze"};
+// (1.0.2.1: not "bloom": MH3U's bloom is part of its light, the picture is a quarter darker without it, and its targets are small)
+inline constexpr const char* kLowEndFilters[] = {"motion_blur", "depth_of_field", "radial_blur", "haze"};
+// 1.0.2.1, once (the flag [Graphics] LowEndBloomBack): a Low-end mode set before it turned the bloom off; on again
+void app_low_end_bloom_back();
 // LowEnd's text (off|on|toaster|brick, and the switch's 0/1/true/false of older files) as LOW_END_*
 int app_low_end_level(const std::string& text);
 

@@ -1654,7 +1654,8 @@ void low_end(int level) {
     Draft& d = s.draft;
     const int was = d.low_end;
     d.low_end = level;
-    std::string* filters[] = {&d.bloom, &d.motion_blur, &d.depth_of_field, &d.radial_blur, &d.haze};
+    // (not the bloom: MH3U's is part of its light, kLowEndFilters)
+    std::string* filters[] = {&d.motion_blur, &d.depth_of_field, &d.radial_blur, &d.haze};
     const bool toaster = level >= LOW_END_TOASTER, was_toaster = was >= LOW_END_TOASTER;  // (Brick sets what Toaster does)
     if (level != LOW_END_OFF) {
         const int scale = toaster ? kToasterScale : kLowEndScale;
@@ -5216,8 +5217,8 @@ struct Help {
 const Help HELP[] = {
     {"LowEnd.off", "Off: the game as the options below make it, at the resolution and frame rate you chose. On trades looks for frames on a weak phone; Toaster trades them for battery and a cool phone.",
      "No: el juego como lo dejan las opciones de abajo, con la resolución y los cuadros que elegiste. Sí cambia aspecto por cuadros en un teléfono débil; Tostadora, por batería y un teléfono fresco."},
-    {"LowEnd.on", "On: frames before looks, for a weak phone. 60 FPS (30 on a phone without a fast core), the 3D picture at a third of your screen's resolution (the 3DS's own on a 720-line screen), and no screen filters or shadows. The picture is softer and plainer; a Moto g06 runs twice the frames of 30. You can still change each of them afterwards.",
-     "Sí: los cuadros antes que el aspecto, para un teléfono débil. 60 FPS (30 en un teléfono sin un núcleo rápido), la imagen 3D a un tercio de la resolución de tu pantalla (la de la 3DS en una de 720 líneas), y sin filtros de pantalla ni sombras. La imagen se ve más suave y simple; un Moto g06 da el doble de cuadros que a 30. Después puedes cambiar cada uno."},
+    {"LowEnd.on", "On: frames before looks, for a weak phone. 60 FPS (30 on a phone without a fast core), the 3D picture at a third of your screen's resolution (the 3DS's own on a 720-line screen), and no screen filters (but the bloom, part of the game's light) or shadows. The picture is softer and plainer; a Moto g06 runs twice the frames of 30. You can still change each of them afterwards.",
+     "Sí: los cuadros antes que el aspecto, para un teléfono débil. 60 FPS (30 en un teléfono sin un núcleo rápido), la imagen 3D a un tercio de la resolución de tu pantalla (la de la 3DS en una de 720 líneas), y sin filtros de pantalla (salvo el resplandor, parte de la luz del juego) ni sombras. La imagen se ve más suave y simple; un Moto g06 da el doble de cuadros que a 30. Después puedes cambiar cada uno."},
     {"LowEnd.toaster", "Toaster: the battery and the phone's heat before everything. A steady 30 FPS, the 3DS's own rate (half the phone's work of 60), the 3DS's own resolution, no screen filters or shadows, and no reverb. The plainest picture, for long hunts on one charge. You can still change each of them afterwards.",
      "Tostadora: la batería y el calor del teléfono antes que todo. 30 FPS parejos, los de la propia 3DS (la mitad del trabajo del teléfono que a 60), la resolución de la 3DS, sin filtros de pantalla ni sombras, y sin reverberación. La imagen más simple, para cacerías largas con una sola carga. Después puedes cambiar cada uno."},
     {"LowEnd.brick", "Brick: below Toaster, for the weakest phones. Everything Toaster does (a steady 30 FPS, the 3DS's own resolution, no screen filters, shadows or reverb), and the 3D world's textures at a sixteenth of their size, drawn as big sharp blocks, with the top screen's pixels sharp: less for the phone to read each frame. It looks blocky, a little like the PS1, but nothing is added for the look (that is the PS1 filter). You can still change each of Toaster's settings afterwards.",

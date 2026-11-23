@@ -176,6 +176,7 @@ struct Options {
     bool widescreen_match = false;  // widescreen = match: the top screen takes the frontend's
                                     // window shape (SetWindowSize), resolved by Install
     bool wide_render = false;  // wide_render / MH4U_WIDE_RENDER: render the wider image itself
+    u32 wide_rows_max = 0;     // wide_rows_max: the widest top screen in rows (0: MH3U_VRAM_WIDE_ROWS, room for the light target)
     u32 trace_every = 0;    // trace_frames / MH4U_TRACE_FRAMES: log frame timing every n frames
     bool trace_panels = false;  // trace_panels / MH4U_TRACE_PANELS: log touch-panel activity
     u32 render_set = 0, render_clear = 0;  // render_flags_set/_clear: bits of the render word
@@ -398,6 +399,8 @@ void Set(Options& o, const std::string& key, const std::string& value) {
         o.widescreen = o.widescreen_match ? 0.0f : ParseAspect(value);
     } else if (key == "wide_render") {
         o.wide_render = IsOn(value);
+    } else if (key == "wide_rows_max") {
+        o.wide_rows_max = static_cast<u32>(std::max(0, std::atoi(value.c_str())));
     } else if (key == "dither") {
         o.dither = IsOn(value);
     } else if (key == "stereo_3d") {
@@ -993,12 +996,21 @@ void GetProjMatrix(RCtx* ctx, RFunc original) {
 /// which the game has room for). PICA framebuffers have at most 1024 rows, so that is the limit;
 /// a wider aspect ratio would get the rest from the projection (anamorphic).
 constexpr u32 MAX_WIDE_ROWS = 1024;
+/// MH3U (1.0.2.1): the widest top screen whose framebuffers leave the game's VRAM room for its 256 x 256 light target (the
+/// sun's light and shadows on the scenery, the hunters' and monsters' shadows). The three top-screen framebuffers grow by
+/// 23 KB every 8 rows; at 528 rows and more (20:9, 2.2:1 and wider phones) sLtRender found no room for that target and
+/// drew the scenes without it: darker, no shadows (Moto g06 at 544 rows, 19.5:9's 520 as the Galaxy S25: lit). A wider
+/// screen gets this picture, widened by the projection and the frontend (as past MAX_WIDE_ROWS); `wide_rows_max` = n
+/// (520 to 1024) sets another limit.
+constexpr u32 MH3U_VRAM_WIDE_ROWS = 520;
 u32 WideRows() {
     if (!options.wide_render || options.widescreen <= NATIVE_ASPECT) {
         return 0;
     }
     const u32 rows = static_cast<u32>(std::lround(LCD_COLUMNS * options.widescreen / 8.0f)) * 8;
-    return std::min(rows, MAX_WIDE_ROWS);
+    const u32 limit = options.wide_rows_max ? std::clamp(options.wide_rows_max, MH3U_VRAM_WIDE_ROWS, MAX_WIDE_ROWS)
+                                            : MH3U_VRAM_WIDE_ROWS;
+    return std::min(rows, limit);
 }
 
 /// The width the hunting HUD's sides go to (hud_edges), in the wide picture's pixels, or 0 (where the game puts them):

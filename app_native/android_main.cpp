@@ -724,6 +724,7 @@ int main(int argc, char* argv[]) {
     const std::string code = internal + "/libmh4u_code_native.so";
     mkdir(user.c_str(), 0770);
     game_options_init(user);
+    app_low_end_bloom_back();  // (1.0.2.1, once)
     diag_log_ini("mh4u.ini (the port's game options)", user + "/mh4u.ini");
     content_init(user);  // (the settings' Mods and Cheats pages)
     content_set_game(game);  // (their title: USA or EUR, as the game folder's exheader says)
